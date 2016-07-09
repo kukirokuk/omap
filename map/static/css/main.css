@@ -1,0 +1,31 @@
+h1, h2, h3, h4, h5, h6 {
+	font-weight: bold;
+}
+#footer {
+	/*задаємо верхню межу елемента: ширина лінії, тип лінії колір Лінії*/
+	border-top: 1px solid #dddddd;
+	padding-top: 10px;
+}
+#map{
+	padding-top: 80px;
+}
+.room_1 {
+    position: absolute;
+    top: 280px;
+    left: 220px;
+}
+.room_2 {
+    position: absolute;
+    top: 340px;
+    left: 365px;
+}
+.room_3 {
+    position: absolute;
+    top: 280px;
+    left: 520px;
+}
+.room_4 {
+    position: absolute;
+    top: 280px;
+    left: 690px;
+}
