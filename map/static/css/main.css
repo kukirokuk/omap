@@ -10,22 +10,22 @@ h1, h2, h3, h4, h5, h6 {
 	padding-top: 80px;
 }
 .room_1 {
-    position: absolute;
-    top: 280px;
-    left: 220px;
+    position: relative;
+    top: -190px;
+    left: 100px;
 }
 .room_2 {
-    position: absolute;
-    top: 340px;
-    left: 365px;
+    position: relative;
+    top: -180px;
+    left: 250px;
 }
 .room_3 {
-    position: absolute;
-    top: 280px;
-    left: 520px;
+    position: relative;
+    top: -270px;
+    left: 400px;
 }
 .room_4 {
-    position: absolute;
-    top: 280px;
-    left: 690px;
+    position: relative;
+    top: -320px;
+    left: 570px;
 }
