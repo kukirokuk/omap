@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %} Map {% endblock meta_title %}
+
+{% block title %} Map{% endblock title %}
+{% block logo %}
+<div class="row">
+    <h2>Detail view</h1>
+</div>
+{% endblock %}
+{% block content %}
+
+<div class="row">
+    <h4>{{room.room_name}}</h4>
+</div>
+
+<div class="row">
+    <a href=" {% url "map" %} ">back</a>
+</div>
+{% endblock content %}

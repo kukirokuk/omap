@@ -15,8 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from map.views import MapView, RoomView
 
 urlpatterns = [
-    url(r'^$', 'map.views.map', name="map"),
+    url(r'^$', MapView.as_view(), name="map"),
+    url(r'^detail/(?P<pk>\d+)$', RoomView.as_view(), name='detail'),
+
+
     url(r'^admin/', admin.site.urls),
 ]
