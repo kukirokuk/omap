@@ -9,23 +9,26 @@ h1, h2, h3, h4, h5, h6 {
 /*#map{
 	padding-top: 80px;
 }*/
-.room_1 {
+.room-set {
     position: relative;
-    top: -190px;
-    left: 100px;
+    top:-170px;
+    left:110px;
+}
+.room_1 {
+    position: absolute;
 }
 .room_2 {
-    position: relative;
-    top: -180px;
-    left: 250px;
+    position: absolute;
+    top: 50px;
+    left: 145px;
 }
 .room_3 {
-    position: relative;
-    top: -270px;
-    left: 400px;
+    position: absolute;
+    top: -10px;
+    left: 300px;
 }
-.room_4 {
-    position: relative;
-    top: -320px;
-    left: 570px;
+.room-set > .room_4 {
+    position: absolute;
+    top: -20px;
+    left: 465px;
 }

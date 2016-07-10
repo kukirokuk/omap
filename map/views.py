@@ -38,10 +38,9 @@ class RoomCreate(CreateView):
         return '%s?status_message=Room created' % reverse('map')
 
     def form_valid(self, form):
-        instance = form
-        print self.kwargs['pk']
+        instance = form.save()
         instance.id = self.kwargs['pk']
-        instance.save
+        instance.save()
         return redirect(self.get_success_url())
 
 class RoomUpdate(UpdateView):
