@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %} Map {% endblock meta_title %}
+
+{% block title %} Map{% endblock title %}
+{% block logo %}
+<div class="row" >
+    <h2>Edit room</h1>
+</div>
+{% endblock %}
+{% block content %}
+
+    <form method="POST" action="">
+    {% csrf_token %}
+<div class="row">
+        {{ form.as_p }}
+</div>
+        <div class="row">
+            <div class="col-xs-4">
+                <a class= "btn btn-primary" href=" {% url "map" %} ">cancel</a>
+            </div>
+            <div class="col-xs-2">
+                <input type="submit" class= "btn btn-primary" value="save"></input>
+            </div>
+        </div>
+    </form>
+
+{% endblock content %}

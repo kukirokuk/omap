@@ -21,4 +21,4 @@ class Room(models.Model):
 
     def __unicode__(self):
 
-            return u"%s" % (self.room_name)
+            return u"%s, id=%d" % (self.room_name, self.id)

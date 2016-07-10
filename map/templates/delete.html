@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %} Map {% endblock meta_title %}
+
+{% block title %} Map{% endblock title %}
+{% block logo %}
+<div class="row" >
+    <h2>Confirm DELETE</h1>
+</div>
+{% endblock %}
+{% block content %}
+<div class="row" id >
+    <form method="POST" action="{% url "room_delete" room.id %}">
+    {% csrf_token %}
+    DO YOU WANT TO DELETE: {{object}}?
+    <a class= "btn btn-primary" href=" {% url "map" %} ">cancel</a>
+    <input type="submit" value="YES" name="delete_button" class="btn btn-danger" />
+    </form>
+</div>
+{% endblock content %}
+{%block footer%}{%endblock%}

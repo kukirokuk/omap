@@ -16,21 +16,25 @@
     <map name="image-map" id="ImageMapsCom-image-map">
         <area id="1" color="blue" alt="" title="1" href="{% url "detail" 1 %}" shape="rect" coords="53,116,247,327" />
         <area id="2" alt="" title="2" href="{% url "detail" 2 %}" shape="rect" coords="258,237,333,329" />
-        <area id="4" alt="" title="4" href="{% url "detail" 3 %}" shape="rect" coords="583,119,646,327" />
-        <area id="3" alt="" title="3" href="{% url "detail" 4 %}" shape="poly" coords="259,117,361,117,361,55,445,56,445,118,573,119,573,327,345,327,345,227,259,227" />
+        <area id="4" alt="" title="4" href="{% url "detail" 4 %}" shape="rect" coords="583,119,646,327" />
+        <area id="3" alt="" title="3" href="{% url "detail" 3 %}" shape="poly" coords="259,117,361,117,361,55,445,56,445,118,573,119,573,327,345,327,345,227,259,227" />
     </map>
 </div>
 
 <div class="room_1">
     <h4>{{room1.room_name}}<br>
-    developers</h4>
+    </h4>
 </div>
 <div class="room_2">
     <h4>{{room2.room_name}}</h4>
 </div>
 <div class="room_3">
-    <h4>{{room3.room_name}}<br>
-    developers</h4>
+    {% if room3 %}
+    <h4>{{room3.room_name}}</h4
+    {% else %}
+    Empty room
+    <a class="btn btn-primary" href=" {% url "room_create" 3 %} ">add</a>
+    {% endif %}
 </div>
 <div class="room_4">
     <h4>{{room4.room_name}}</h4>

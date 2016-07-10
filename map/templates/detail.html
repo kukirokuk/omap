@@ -13,10 +13,21 @@
 {% block content %}
 
 <div class="row">
-    <h4>{{room.room_name}}</h4>
+    <h4>Name: {{room.room_name}}</h4>
 </div>
-
 <div class="row">
-    <a href=" {% url "map" %} ">back</a>
+        <h4>Number of emploees: {{room.emp_number}}</h4>
+
+</div>
+<div class="row">
+    <div class="col-xs-4">
+        <a class= "btn btn-primary" href=" {% url "map" %} ">back</a>
+    </div>
+    <div class="col-xs-2">
+        <a class="btn btn-primary" href=" {% url "update" room.id %} ">update</a>
+    </div>
+        <div class="col-xs-1">
+        <a id="delete" href=" {% url "room_delete" room.id %} ">delete</a>
+    </div>
 </div>
 {% endblock content %}
