@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% load static from staticfiles %}
+
+{% block meta_title %} Map {% endblock meta_title %}
+
+{% block title %} Map{% endblock title %}
+{% block logo %}
+<div class="row">
+    <h2>Worker detail view</h1>
+</div>
+{% endblock %}
+{% block content %}
+
+<div class="row">
+    <h4><span id="detail_name">Name:</span> {{worker.first_name}} {{worker.last_name}}</h4>
+</div>
+<div class="row">
+    <h4><span id="detail_name">Email: </span>{{worker.email}}</h4>
+</div>
+<div class="row">
+    <h4><span id="detail_name">Room: </span>{{worker.work_room}}</h4>
+</div>
+<div class="row detail">
+    <div class="col-xs-3">
+        <a class= "btn btn-primary" href=" {% url "detail" worker.work_room.id %} ">back</a>
+    </div>
+    <div class="col-xs-1">
+        <a class="btn btn-primary" href="{% url "worker_update" worker.id %} ">update</a>
+    </div>
+        <div class="col-xs-1">
+        <a class="delete btn btn-danger" href="#} ">delete</a>
+    </div>
+</div>
+{% endblock content %}

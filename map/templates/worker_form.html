@@ -7,33 +7,40 @@
 {% block title %} Map{% endblock title %}
 {% block logo %}
 <div class="row" >
-    <h2>Edit room</h1>
+    <h2>Edit worker data</h1>
 </div>
 {% endblock %}
 {% block content %}
 
-    <form class="form-horizontal" method="POST" id="room_form" 
+    <form class="form-horizontal" method="POST" id="worker_form" 
     action="" enctype='multipart/form-data'>
         {% csrf_token %}
         <div class="row" id="contacts-form">
             <div class="col-xs-4">
                 <div class="form-group">
-                    <label class="col-md-4 control-label">Name:</label>
+                    <label class="col-md-4 control-label">First name:</label>
                     <div class="col-md-8">
-                        {{ form.room_name }}
+                        {{ form.first_name }}
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-md-4 control-label">Number of workers:</label>
+                    <label class="col-md-4 control-label">Last name:</label>
                     <div class="col-md-8">
-                        {{ form.emp_number }}
+                        {{ form.last_name }}
                     </div>
                 </div>
 
                 <div class="form-group">
+                    <label class="col-md-4 control-label">Email:</label>
                     <div class="col-md-8">
-                    {{ form.image}}
+                        {{ form.email }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Work room:</label>
+                    <div class="col-md-8">
+                        {{ form.work_room }}
                     </div>
                 </div>
             </div>

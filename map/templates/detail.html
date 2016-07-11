@@ -28,7 +28,7 @@
     <img src="{% static "img/default-image.jpg" %}" width="520" />
     {% endif %}
 </div>
-<div class="row detail">
+<div class="row detail" id="fff">
     <div class="col-xs-3">
         <a class= "btn btn-primary" href=" {% url "map" %} ">back</a>
     </div>
@@ -44,8 +44,11 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>Name</th>
+            <th>First name</th>
+            <th>Second name</th>
             <th>Email</th>
+            <th>Menu</th>
+            <th><a class="btn btn-primary" href="{% url "worker_create" %}">Add worker</a></th>
         </tr>
     </thead>
     <tbody>
@@ -55,6 +58,26 @@
             <td>{{worker.first_name}}</td>
             <td>{{worker.last_name}}</td>
             <td>{{worker.email}}</td>
+            <td>
+            <a class="btn btn-primary" href="{% url "worker_detail" worker.id %}">Detail</a>
+            <a class="btn btn-primary" href="{% url "worker_update" worker.id %}">Edit</a>
+ <!--              <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"> Menu
+                <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                 <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="{% url "worker_detail" worker.id %}">Detail</a>
+                 </li>
+                 <li role="presentation">
+                   <a role="menuitem" tabindex="-1" href="111#" >Edit</a>
+                 </li>
+                 <li role="presentation"> 
+                    <a role="menuitem" tabindex="-1" href="#">Delete</a>
+                  </li> -->
+                </ul>
+              </div>
+            </td>
         </tr>
     {% endfor %}
     </tbody>

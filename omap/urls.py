@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from map.views import MapView, RoomView, RoomUpdate, RoomDelete, RoomCreate
+from map.views import WorkerView, WorkerCreate, WorkerUpdate
 
 urlpatterns = [
     url(r'^$', MapView.as_view(), name="map"),
@@ -11,6 +12,10 @@ urlpatterns = [
     url(r'^room/update/(?P<pk>\d+)$', RoomUpdate.as_view(), name='update'),
     url(r'^room/delete/(?P<pk>\d+)$', RoomDelete.as_view(), name='room_delete'),
 
+    #worker urls
+    url(r'^worker/detail/(?P<pk>\d+)$', WorkerView.as_view(), name='worker_detail'),
+    url(r'^worker/create/$', WorkerCreate.as_view(), name='worker_create'),
+    url(r'^worker/update/(?P<pk>\d+)$', WorkerUpdate.as_view(), name='worker_update'),
 
     url(r'^admin/', admin.site.urls),
 ]

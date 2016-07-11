@@ -3,7 +3,8 @@ from django.views.generic import TemplateView, DetailView, UpdateView, CreateVie
 from django.core.urlresolvers import reverse
 
 from models import Room, Worker
-from forms import RoomUpdateForm
+from forms import RoomUpdateForm, WorkerUpdateForm
+from django.http import Http404
 
 class MapView(TemplateView):
     model = Room
@@ -65,3 +66,39 @@ class RoomDelete(DeleteView):
     def get_success_url(self):
         return '%s?status_message=Room deleted' % reverse('map')
 
+# Worker views
+
+class WorkerView(DetailView):
+    template_name = 'worker_detail.html'
+    model = Worker
+    context_object_name = "worker"
+
+    def get_object(self):
+        object = super(WorkerView, self).get_object()
+        if not self.request.user.is_authenticated():
+            raise Http404
+        return object
+
+class WorkerCreate(CreateView):
+    model = Worker
+    template_name = 'worker_form.html'
+    form_class = WorkerUpdateForm
+
+    def get_success_url(self):
+        return '%s?status_message=Worker created' % reverse('map')
+
+    # def form_valid(self, form):
+        # instance = form.save()
+        # room = Room.objects.filter(pk=self.kwargs['pk'])[0]
+        # print self.kwargs['pk']
+        # instance.id = self.kwargs['pk']
+        # instance.save()
+        # return redirect(self.get_success_url())
+
+class WorkerUpdate(UpdateView):
+    model = Worker 
+    template_name = 'worker_form.html'
+    form_class = WorkerUpdateForm
+
+    def get_success_url(self):
+        return '%s?status_message=Worker updated' % reverse('map')

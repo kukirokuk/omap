@@ -24,7 +24,7 @@ class Room(models.Model):
 
     def __unicode__(self):
 
-            return u"%s, id=%d" % (self.room_name, self.id)
+            return u"%s" % (self.room_name)
 
 class Worker(models.Model):
     """Worker model"""
@@ -48,7 +48,7 @@ class Worker(models.Model):
 
     work_room = models.ForeignKey('Room',
         blank=False,
-        null=True,
+        null=False,
         on_delete=models.PROTECT)
 
     def __unicode__(self):
