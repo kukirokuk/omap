@@ -7,4 +7,4 @@ class RoomUpdateForm(forms.ModelForm):
 
     class  Meta:
         model = Room
-        fields = ["room_name", "emp_number"] 
+        fields = ["room_name", "emp_number", "image"] 

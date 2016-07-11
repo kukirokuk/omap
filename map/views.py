@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import TemplateView, DetailView, UpdateView, CreateView, DeleteView
+from django.views.generic import TemplateView, DetailView, UpdateView, CreateView, DeleteView, ListView
 from django.core.urlresolvers import reverse
 
-from models import Room
+from models import Room, Worker
 from forms import RoomUpdateForm
 
 class MapView(TemplateView):
@@ -28,6 +28,11 @@ class RoomView(DetailView):
         if not self.request.user.is_authenticated():
             raise Http404
         return object
+
+    def get_context_data(self, **kwargs):
+        context = super(RoomView, self).get_context_data(**kwargs)
+        context['workers'] = Worker.objects.filter(work_room_id = self.kwargs['pk'])
+        return context
 
 class RoomCreate(CreateView):
     model = Room
@@ -59,3 +64,4 @@ class RoomDelete(DeleteView):
 
     def get_success_url(self):
         return '%s?status_message=Room deleted' % reverse('map')
+

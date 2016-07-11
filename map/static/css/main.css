@@ -2,16 +2,13 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: bold;
 }
 #footer {
-	/*задаємо верхню межу елемента: ширина лінії, тип лінії колір Лінії*/
 	border-top: 1px solid #dddddd;
 	padding-top: 10px;
 }
-/*#map{
-	padding-top: 80px;
-}*/
+
 .room-set {
     position: relative;
-    top:-170px;
+    top:-180px;
     left:110px;
 }
 .room_1 {
@@ -27,8 +24,17 @@ h1, h2, h3, h4, h5, h6 {
     top: -10px;
     left: 300px;
 }
-.room-set > .room_4 {
+.room_4 {
     position: absolute;
     top: -20px;
-    left: 465px;
+    left: 470px;
+}
+
+ .detail {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.delete {
+    margin-left: 20px;
 }

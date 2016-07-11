@@ -119,5 +119,23 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
-
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+                os.path.join(BASE_DIR,'staticfiles'), # if your static files folder is named "staticfiles"
+)
+TEMPLATE_DIRS = (
+                os.path.join(BASE_DIR,'templates'), # if your static files folder is named "template"
+)
+
+MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
+MEDIA_URL = '/media/'
+
+FIXTURE_DIRS = (
+    os.path.join(BASE_DIR, 'map/fixtures'),
+)
+
+DJANGORESIZED_DEFAULT_SIZE = [1000 , 800]
+DJANGORESIZED_DEFAULT_QUALITY = 75
+DJANGORESIZED_DEFAULT_KEEP_META = True

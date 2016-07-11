@@ -1,13 +1,13 @@
-
 from django.db import models
+from django_resized import ResizedImageField
 
 
 class Room(models.Model):
     """Room Model"""
 
     class Meta(object):
-        verbose_name = u"Rooms"
-        verbose_name_plural = u"Room"
+        verbose_name = "Room"
+        verbose_name_plural = "Rooms"
 
     room_name = models.CharField(
         max_length=256,
@@ -19,6 +19,38 @@ class Room(models.Model):
         blank= True,
         verbose_name=u"Count of places")
 
+    image = ResizedImageField(size=[800, 600], upload_to='photo/', blank=True,
+                              null=True)
+
     def __unicode__(self):
 
             return u"%s, id=%d" % (self.room_name, self.id)
+
+class Worker(models.Model):
+    """Worker model"""
+
+    class Meta(object):
+        verbose_name = "Worker"
+        verbose_name_plural = "Workers"
+        ordering = ['first_name']
+
+    first_name = models.CharField(
+        max_length=30, 
+        blank=False)
+
+    last_name = models.CharField(
+        max_length=30, 
+        blank=False)
+
+    email = models.EmailField(
+        max_length=30,
+        blank=False)
+
+    work_room = models.ForeignKey('Room',
+        blank=False,
+        null=True,
+        on_delete=models.PROTECT)
+
+    def __unicode__(self):
+        return "%s %s, %s" %(self.first_name, self.last_name, 
+            self.work_room.room_name)
