@@ -1,6 +1,9 @@
 h1, h2, h3, h4, h5, h6 {
 	font-weight: bold;
 }
+h2 {
+    text-decoration: underline;
+}
 #footer {
 	border-top: 1px solid #dddddd;
 	padding-top: 10px;
@@ -30,11 +33,18 @@ h1, h2, h3, h4, h5, h6 {
     left: 470px;
 }
 
- .detail {
+.detail {
     margin-top: 30px;
     margin-bottom: 30px;
 }
 
 .delete {
     margin-left: 20px;
+}
+#detail_name{
+    color: grey;
+}
+#button_row {
+    margin-bottom: 50px;
+    margin-top: 50px;
 }
