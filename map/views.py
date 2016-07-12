@@ -40,6 +40,7 @@ class RoomView(DetailView):
         context['workers'] = Worker.objects.filter(work_room_id = self.kwargs['pk'])
         return context
 
+@method_decorator(login_required, name='dispatch')
 class RoomCreate(CreateView):
     model = Room
     template_name = 'room_form.html'
@@ -54,6 +55,7 @@ class RoomCreate(CreateView):
         instance.save()
         return redirect(self.get_success_url())
 
+@method_decorator(login_required, name='dispatch')
 class RoomUpdate(UpdateView):
     model = Room 
     template_name = 'room_form.html'
@@ -63,6 +65,7 @@ class RoomUpdate(UpdateView):
         return '%s?status_message=Room updated' % reverse('detail', 
             kwargs={'pk': self.get_object().id})
 
+@method_decorator(login_required, name='dispatch')
 class RoomDelete(DeleteView):
     model = Room
     template_name = 'delete.html'
@@ -79,6 +82,7 @@ class RoomDelete(DeleteView):
 
 # Worker views
 
+@method_decorator(login_required, name='dispatch')
 class WorkerView(DetailView):
     template_name = 'worker_detail.html'
     model = Worker
@@ -90,6 +94,7 @@ class WorkerView(DetailView):
             raise Http404
         return object
 
+@method_decorator(login_required, name='dispatch')
 class WorkerCreate(CreateView):
     model = Worker
     template_name = 'worker_form.html'
@@ -98,6 +103,7 @@ class WorkerCreate(CreateView):
     def get_success_url(self):
         return '%s?status_message=Worker created' % reverse('map')
 
+@method_decorator(login_required, name='dispatch')
 class WorkerUpdate(UpdateView):
     model = Worker 
     template_name = 'worker_form.html'
@@ -106,6 +112,7 @@ class WorkerUpdate(UpdateView):
     def get_success_url(self):
         return '%s?status_message=Worker updated' % reverse('map')
 
+@method_decorator(login_required, name='dispatch')
 class WorkerDelete(DeleteView):
     model = Worker
     template_name = 'delete.html'
