@@ -1,0 +1,60 @@
+
+{% extends "base.html" %}
+{% load static from staticfiles %}
+
+{% block meta_title %} Map {% endblock meta_title %}
+
+{% block title %} Map{% endblock title %}
+{% block logo %}
+<div class="row" >
+    <h2>Login Page</h2>
+</div>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="row detail" id="login-header">
+    <h3>Please enter your login and password</h3>
+</div>
+<div class="row ">
+    <form class="form-horizontal" method="post" action="{% url "django.contrib.auth.views.login" %}?next={{ request.GET.next }}">
+    {% csrf_token %}
+    <div class="row" id="contacts-form">
+        <div class="col-xs-5">
+            <div class="form-group">
+                <label class="col-md-4 control-label">
+                {{ form.username.label_tag }}
+                </label>
+                <div class="col-md-8">
+                    {{ form.username }}
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-5">
+            <div class="form-group">
+                <label class="col-md-4 control-label">
+                {{ form.password.label_tag }}
+                </label>
+                <div class="col-md-8">
+                    {{ form.password }}
+
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="row login">
+            <div class="col-xs-4">
+                <button type="submit" class=" btn btn-success" id="login-button">Login</button>
+                
+
+            </div>
+        </div>
+    </form>
+</div>
+        {% if form.errors %}
+        <p>Input correct login and password.</p>
+        {% endif %}
+
+{% endblock %}
+

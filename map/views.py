@@ -3,10 +3,11 @@ from django.views.generic import TemplateView, DetailView, UpdateView, CreateVie
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.db.models.deletion import ProtectedError
 
 from models import Room, Worker
 from forms import RoomUpdateForm, WorkerUpdateForm
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 
 # Room views 
 
@@ -68,7 +69,13 @@ class RoomDelete(DeleteView):
     context_object_name = "room"
 
     def get_success_url(self):
-        return '%s?status_message=Room deleted' % reverse('map')
+        return '%s?status_message=Room deleted' % (reverse('map'))
+
+    def post(self, request, *args, **kwargs):
+        try:
+            return self.delete(request, *args, **kwargs)
+        except ProtectedError:
+            return HttpResponseRedirect('%s?status_message=Room can`t be deleted because it`s not empty' % reverse('map'))
 
 # Worker views
 
