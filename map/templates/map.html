@@ -5,19 +5,20 @@
 {% block meta_title %} Map {% endblock meta_title %}
 
 {% block title %} Map{% endblock title %}
+
 {% block content %}
 
-<div class="row">
+<!-- {% block logo %}
     <h2>Office map</h1>
-</div>
+{% endblock %} -->
 
 <div class="row" id="map">
     <img id="image-map" src="{% static "img/newscheme.jpg" %}" border="0" width="760" height="392" orgWidth="760" orgHeight="392" usemap="#image-map" alt="" class="map" />
     <map name="image-map" id="ImageMapsCom-image-map">
-        <area id="1" color="blue" alt="" title="1" {% if room1 %}href="{% url "detail" 1 %}" {% endif %}shape="rect" coords="53,116,247,327" />
-        <area id="2" alt="" title="2" {% if room2 %}href="{% url "detail" 2 %}{% endif %}" shape="rect" coords="258,237,333,329" />
-        <area id="3" alt="" title="3" {% if room3 %}href="{% url "detail" 3 %}{% endif %}" shape="poly" coords="259,117,361,117,361,55,445,56,445,118,573,119,573,327,345,327,345,227,259,227" />
-        <area id="4" alt="" title="4" {% if room4 %}href="{% url "detail" 4 %}{% endif %}" shape="rect" coords="583,119,646,327" />
+        <area id="1" alt="" title="id: 1" {% if room1 %}href="{% url "detail" 1 %}" {% endif %}shape="rect" coords="52,116,247,327" />
+        <area id="2" alt="" title="id: 2" {% if room2 %}href="{% url "detail" 2 %}{% endif %}" shape="rect" coords="257,237,333,329" />
+        <area id="3" alt="" title="id: 3" {% if room3 %}href="{% url "detail" 3 %}{% endif %}" shape="poly" coords="259,117,361,117,361,55,445,56,445,118,573,119,573,327,345,327,345,227,259,227" />
+        <area id="4" alt="" title="id: 4" {% if room4 %}href="{% url "detail" 4 %}{% endif %}" shape="rect" coords="583,119,646,327" />
     </map>
 </div>
 <div class="room-set">

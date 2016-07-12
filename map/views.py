@@ -6,6 +6,8 @@ from models import Room, Worker
 from forms import RoomUpdateForm, WorkerUpdateForm
 from django.http import Http404
 
+# Room views 
+
 class MapView(TemplateView):
     model = Room
     template_name = "map.html"
@@ -102,3 +104,11 @@ class WorkerUpdate(UpdateView):
 
     def get_success_url(self):
         return '%s?status_message=Worker updated' % reverse('map')
+
+class WorkerDelete(DeleteView):
+    model = Worker
+    template_name = 'delete.html'
+    context_object_name = "worker"
+
+    def get_success_url(self):
+        return '%s?status_message=Worker deleted' % reverse('map')

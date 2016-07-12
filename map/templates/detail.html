@@ -2,9 +2,9 @@
 
 {% load static from staticfiles %}
 
-{% block meta_title %} Map {% endblock meta_title %}
+{% block meta_title %} Detail {% endblock meta_title %}
 
-{% block title %} Map{% endblock title %}
+{% block title %} Detail {% endblock title %}
 {% block logo %}
 <div class="row">
     <h2>Detail view</h1>
@@ -36,7 +36,7 @@
         <a class="btn btn-primary" href=" {% url "update" room.id %} ">update</a>
     </div>
         <div class="col-xs-1">
-        <a class="delete btn btn-danger" href=" {% url "room_delete" room.id %} ">delete</a>
+        <a class="delete_button btn btn-danger" href=" {% url "room_delete" room.id %} ">delete</a>
     </div>
 </div>
 <div class="row"><h4><span id="detail_name">Workers</span></h4></div>
@@ -59,24 +59,18 @@
             <td>{{worker.last_name}}</td>
             <td>{{worker.email}}</td>
             <td>
-            <a class="btn btn-primary" href="{% url "worker_detail" worker.id %}">Detail</a>
-            <a class="btn btn-primary" href="{% url "worker_update" worker.id %}">Edit</a>
- <!--              <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"> Menu
+            <div class="btn-group">
+              <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+              Menu
                 <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                 <li role="presentation">
-                    <a role="menuitem" tabindex="-1" href="{% url "worker_detail" worker.id %}">Detail</a>
-                 </li>
-                 <li role="presentation">
-                   <a role="menuitem" tabindex="-1" href="111#" >Edit</a>
-                 </li>
-                 <li role="presentation"> 
-                    <a role="menuitem" tabindex="-1" href="#">Delete</a>
-                  </li> -->
-                </ul>
-              </div>
+              </a>
+              <ul class="dropdown-menu">
+                <!-- dropdown menu links -->
+                <li><a tabindex="-1" href="{% url "worker_detail" worker.id %}">Detail</a></li>
+                <li><a tabindex="-1" href="{% url "worker_update" worker.id %}">Edit</a></li>
+                <li><a tabindex="-1" href="{% url "worker_delete" worker.id %}">Delete</a></li>
+              </ul>
+            </div>
             </td>
         </tr>
     {% endfor %}

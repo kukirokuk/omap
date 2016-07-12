@@ -16,18 +16,24 @@
     </head>
     <body>
     <!--Start Container -->
-    <div class="container">
-        <!--Start Header -->
-        <div class="row" id="header"></div>
-
+        <div class="container">
             <!--Logo -->
-            {%block logo%}
 
-            {% endblock logo %}
-                <!-- Content -->
-                {% block content %} {% endblock content %}
-
+            <div class="row">
+                <div class="col-xs-5">{%block logo%}{% endblock logo %}</div>
+            <!-- Status Message -->
+                {% if request.GET.status_message %}
+                <div class="col-xs-3 alert alert-warning" 
+                role="alert">
+                {{ request.GET.status_message }}
+                </div>
+                {% endif %}
             </div>
+
+                <!-- Content -->
+            {% block content %} =
+            {% endblock content %}
+
         </div>
         <!-- End Main Page Content -->
 

@@ -40,13 +40,26 @@ h2 {
     border-bottom: 1px solid #dddddd;
 }
 
-.delete {
+.delete_button {
     margin-left: 20px;
 }
+
 #detail_name{
     color: grey;
 }
+
 #button_row {
     margin-bottom: 50px;
     margin-top: 50px;
+}
+
+#delete_block {
+    position: relative;
+    top:200px;
+    left: 180px;
+}
+
+.alert-warning {
+    margin-top: 10px;
+    text-align: center;
 }
