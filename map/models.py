@@ -16,7 +16,7 @@ class Room(models.Model):
 
     emp_number = models.CharField(
         max_length=256,
-        blank= True,
+        blank= False,
         verbose_name=u"Count of places")
 
     image = ResizedImageField(size=[800, 600], upload_to='photo/', blank=True,

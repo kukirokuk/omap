@@ -89,14 +89,6 @@ class WorkerCreate(CreateView):
     def get_success_url(self):
         return '%s?status_message=Worker created' % reverse('map')
 
-    # def form_valid(self, form):
-        # instance = form.save()
-        # room = Room.objects.filter(pk=self.kwargs['pk'])[0]
-        # print self.kwargs['pk']
-        # instance.id = self.kwargs['pk']
-        # instance.save()
-        # return redirect(self.get_success_url())
-
 class WorkerUpdate(UpdateView):
     model = Worker 
     template_name = 'worker_form.html'
