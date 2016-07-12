@@ -1,17 +1,21 @@
 from django.conf.urls import url, patterns
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib.auth.decorators import login_required
 
 from map.views import MapView, RoomView, RoomUpdate, RoomDelete, RoomCreate
 from map.views import WorkerView, WorkerCreate, WorkerUpdate, WorkerDelete
 
 urlpatterns = [
     url(r'^$', MapView.as_view(), name="map"),
-    url(r'^room/detail/(?P<pk>\d+)$', RoomView.as_view(), name='detail'),
+    url(r'^room/detail/(?P<pk>\d+)$', login_required(RoomView.as_view()), name='detail'),
     url(r'^room/create/(?P<pk>\d+)$', RoomCreate.as_view(), name='room_create'),
     url(r'^room/update/(?P<pk>\d+)$', RoomUpdate.as_view(), name='update'),
     url(r'^room/delete/(?P<pk>\d+)$', RoomDelete.as_view(), name='room_delete'),
-
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login',
+        {'template_name': 'login.html'}, name='login'),
+    url(r'^logout/$', 'django.contrib.auth.views.logout',
+        {'next_page': '/'}, name='logout'),
     #worker urls
     url(r'^worker/detail/(?P<pk>\d+)$', WorkerView.as_view(), name='worker_detail'),
     url(r'^worker/create/$', WorkerCreate.as_view(), name='worker_create'),

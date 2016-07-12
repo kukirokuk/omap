@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, DetailView, UpdateView, CreateView, DeleteView, ListView
 from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from models import Room, Worker
 from forms import RoomUpdateForm, WorkerUpdateForm
@@ -20,7 +22,7 @@ class MapView(TemplateView):
         return {'room1': room1, 'room2': room2,
              'room3': room3, 'room4': room4}
 
-
+@method_decorator(login_required, name='dispatch')
 class RoomView(DetailView):
     template_name = 'detail.html'
     model = Room

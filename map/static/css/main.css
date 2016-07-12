@@ -37,7 +37,6 @@ h2 {
     margin-top: 30px;
     margin-bottom: 20px;
     padding-bottom: 30px;
-    border-bottom: 1px solid #dddddd;
 }
 
 .delete_button {
@@ -62,4 +61,7 @@ h2 {
 .alert-warning {
     margin-top: 10px;
     text-align: center;
+}
+.login {
+    margin-bottom: 30px;
 }
