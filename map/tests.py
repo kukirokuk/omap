@@ -1,6 +1,8 @@
 from django.test import TestCase
 from django.core.urlresolvers import resolve, reverse
 from django.test.client import RequestFactory
+from django.test import Client
+from django.contrib.auth.models import User
 
 import random
 import string
@@ -30,9 +32,12 @@ class WorkerFactory(factory.DjangoModelFactory):
 
     email = "benni@mail.ru"
 
+    work_room = factory.SubFactory(RoomFactory)
+
 class MapPageTest(TestCase):
 
     def setUp(self):
+        self.client = Client()
         self.factory = RequestFactory()
         
     def test_map_page_view(self):
@@ -80,28 +85,36 @@ class MapPageTest(TestCase):
 
 class DetailPageTest(TestCase):
     def setUp(self):
-        self.factory = RequestFactory()
+        self.client = Client()
+        self.factory = RequestFactory()       
+        self.test_user = User.objects.create_user("admin", "admin@admin", "admin")
+        login = self.client.login(username="admin", password="admin")
+        self.assertEqual(login, True)
 
     def test_detail_page_view(self):
         '''
         Check view response code and template
         '''
-        # self.client.login(username='admin', password='admin')
         request = self.factory.get(reverse('room_detail', kwargs = {'pk':1}))
         response = MapView.as_view()(request)
         self.assertEqual(response.status_code, 200)
 
-        room1 = RoomFactory.create(room_name="Frontend", emp_number=2)
-        room2 = RoomFactory.create(room_name="Frontend", emp_number=2)
-        room3 = RoomFactory.create(room_name="Frontend", emp_number=2)
-        room4 = RoomFactory.create(room_name="Frontend", emp_number=2)
-
+        #check room instance in context
+        room1 = RoomFactory.create()
         response = self.client.get(reverse('room_detail', kwargs = {'pk':1}))
-        # response = self.client.get('room/detail/1')
+        room_context = response.context['room']
+        self.assertEqual(room_context, room1)
 
-        print 111111111111, response.content
-        # room_context = response.context['room1']
-        # self.assertEqual(room_context, room1)
-        # response = self.client.get(reverse('room_detail/1'))
+        #check worker instance in context if he is in the room with id=1
+        worker1 = WorkerFactory.create(work_room=room1)
+        response = self.client.get(reverse('room_detail', kwargs = {'pk':1}))
+        worker_context = response.context['workers']
+        self.assertEqual(worker_context.first(), worker1)
 
-        # print 111111, response.context
+        #check worker is absent if his room does not mutch with ours
+        worker1 = WorkerFactory.create()
+        response = self.client.get(reverse('room_detail', kwargs = {'pk':1}))
+        worker_context = response.context['workers']
+        self.assertNotEqual(worker_context.first(), worker1)
+
+
