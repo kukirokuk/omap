@@ -7,7 +7,7 @@ import string
 import factory
 
 from views import MapView
-from models import Room
+from models import Room, Worker
 
 def random_string(length=10):
     return u''.join(random.choice(string.ascii_letters) for x in range(length))
@@ -20,17 +20,24 @@ class RoomFactory(factory.DjangoModelFactory):
 
     emp_number = 3
 
+class WorkerFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = Worker
+
+    first_name = "Benni"
+
+    last_name = "Benassi"
+
+    email = "benni@mail.ru"
+
 class MapPageTest(TestCase):
-    '''
-     Check our view for home page
-    '''
 
     def setUp(self):
         self.factory = RequestFactory()
         
     def test_map_page_view(self):
         '''
-        Check test view response code and template
+        Check view response code and template
         '''
         request = self.factory.get(reverse('map'))
         response = MapView.as_view()(request)
@@ -70,3 +77,31 @@ class MapPageTest(TestCase):
         room5 = RoomFactory.create()
         response = self.client.get(reverse('map'))
         self.assertEqual(response.status_code, 200)
+
+class DetailPageTest(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
+    def test_detail_page_view(self):
+        '''
+        Check view response code and template
+        '''
+        # self.client.login(username='admin', password='admin')
+        request = self.factory.get(reverse('room_detail', kwargs = {'pk':1}))
+        response = MapView.as_view()(request)
+        self.assertEqual(response.status_code, 200)
+
+        room1 = RoomFactory.create(room_name="Frontend", emp_number=2)
+        room2 = RoomFactory.create(room_name="Frontend", emp_number=2)
+        room3 = RoomFactory.create(room_name="Frontend", emp_number=2)
+        room4 = RoomFactory.create(room_name="Frontend", emp_number=2)
+
+        response = self.client.get(reverse('room_detail', kwargs = {'pk':1}))
+        # response = self.client.get('room/detail/1')
+
+        print 111111111111, response.content
+        # room_context = response.context['room1']
+        # self.assertEqual(room_context, room1)
+        # response = self.client.get(reverse('room_detail/1'))
+
+        # print 111111, response.context

@@ -40,7 +40,6 @@ class RoomView(DetailView):
         context['workers'] = Worker.objects.filter(work_room_id = self.kwargs['pk'])
         return context
 
-@method_decorator(login_required, name='dispatch')
 class RoomCreate(CreateView):
     model = Room
     template_name = 'room_form.html'
@@ -55,17 +54,27 @@ class RoomCreate(CreateView):
         instance.save()
         return redirect(self.get_success_url())
 
-@method_decorator(login_required, name='dispatch')
+    def get_object(self):
+        object = super(RoomCreate, self).get_object()
+        if not self.request.user.is_authenticated():
+            raise Http404
+        return object
+
 class RoomUpdate(UpdateView):
     model = Room 
     template_name = 'room_form.html'
     form_class = RoomUpdateForm
 
     def get_success_url(self):
-        return '%s?status_message=Room updated' % reverse('detail', 
+        return '%s?status_message=Room updated' % reverse('room_detail', 
             kwargs={'pk': self.get_object().id})
 
-@method_decorator(login_required, name='dispatch')
+    def get_object(self):
+        object = super(RoomUpdate, self).get_object()
+        if not self.request.user.is_authenticated():
+            raise Http404
+        return object
+
 class RoomDelete(DeleteView):
     model = Room
     template_name = 'delete.html'
@@ -73,6 +82,12 @@ class RoomDelete(DeleteView):
 
     def get_success_url(self):
         return '%s?status_message=Room deleted' % (reverse('map'))
+
+    def get_object(self):
+        object = super(RoomDelete, self).get_object()
+        if not self.request.user.is_authenticated():
+            raise Http404
+        return object
 
     def post(self, request, *args, **kwargs):
         try:
@@ -82,7 +97,6 @@ class RoomDelete(DeleteView):
 
 # Worker views
 
-@method_decorator(login_required, name='dispatch')
 class WorkerView(DetailView):
     template_name = 'worker_detail.html'
     model = Worker
@@ -94,7 +108,6 @@ class WorkerView(DetailView):
             raise Http404
         return object
 
-@method_decorator(login_required, name='dispatch')
 class WorkerCreate(CreateView):
     model = Worker
     template_name = 'worker_form.html'
@@ -103,20 +116,36 @@ class WorkerCreate(CreateView):
     def get_success_url(self):
         return '%s?status_message=Worker created' % reverse('map')
 
-@method_decorator(login_required, name='dispatch')
+    def get_object(self):
+        object = super(WorkerCreate, self).get_object()
+        if not self.request.user.is_authenticated():
+            raise Http404
+        return object
+
 class WorkerUpdate(UpdateView):
     model = Worker 
     template_name = 'worker_form.html'
     form_class = WorkerUpdateForm
 
+    def get_object(self):
+            object = super(UpdateView, self).get_object()
+            if not self.request.user.is_authenticated():
+                raise Http404
+            return object
+
     def get_success_url(self):
         return '%s?status_message=Worker updated' % reverse('map')
 
-@method_decorator(login_required, name='dispatch')
 class WorkerDelete(DeleteView):
     model = Worker
     template_name = 'delete.html'
     context_object_name = "worker"
+
+    def get_object(self):
+        object = super(WorkerDelete, self).get_object()
+        if not self.request.user.is_authenticated():
+            raise Http404
+        return object
 
     def get_success_url(self):
         return '%s?status_message=Worker deleted' % reverse('map')

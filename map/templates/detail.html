@@ -17,6 +17,17 @@
 </div>
 <div class="row">
     <h4><span id="detail_name">Number of work places: </span>{{room.emp_number}}</h4>
+<div class="row detail" id="fff">
+    <div class="col-xs-5">
+        <a class= "btn btn-primary" href=" {% url "map" %} ">back</a>
+    </div>
+    <div class="col-xs-1">
+        <a class="btn btn-primary" href=" {% url "room_update" room.id %} ">update</a>
+    </div>
+        <div class="col-xs-1">
+        <a class="delete_button btn btn-danger" href=" {% url "room_delete" room.id %} ">delete</a>
+    </div>
+</div>
 </div>
 <div class="row">
     {% if room.image %}
@@ -27,17 +38,6 @@
     </div>
     <img src="{% static "img/default-image.jpg" %}" width="520" />
     {% endif %}
-</div>
-<div class="row detail" id="fff">
-    <div class="col-xs-3">
-        <a class= "btn btn-primary" href=" {% url "map" %} ">back</a>
-    </div>
-    <div class="col-xs-1">
-        <a class="btn btn-primary" href=" {% url "update" room.id %} ">update</a>
-    </div>
-        <div class="col-xs-1">
-        <a class="delete_button btn btn-danger" href=" {% url "room_delete" room.id %} ">delete</a>
-    </div>
 </div>
 {% if workers %}
 <div class="row"><h4><span id="detail_name">Workers</span></h4></div>
@@ -79,7 +79,7 @@
 </table>
 {% else %}
 <div class="row">
-<div class="col-xs-6"><h4><span id="detail_name">There are no workers in this room.</span></h4></div>
+<div class="col-xs-6 addworker"><h4><span id="detail_name">There are no workers in this room.</span></h4></div>
 <div class="col-xs-4 addworker"><a class="btn btn-primary" href="{% url "worker_create" %}">Add worker</a></div>
 </div>
 {% endif %}

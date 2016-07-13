@@ -10,9 +10,9 @@ from map.views import WorkerView, WorkerCreate, WorkerUpdate, WorkerDelete
 
 urlpatterns = [
     url(r'^$', MapView.as_view(), name="map"),
-    url(r'^room/detail/(?P<pk>\d+)$', login_required(RoomView.as_view()), name='detail'),
+    url(r'^detail/(?P<pk>\d+)$', login_required(RoomView.as_view()), name='room_detail'),
     url(r'^room/create/(?P<pk>\d+)$', RoomCreate.as_view(), name='room_create'),
-    url(r'^room/update/(?P<pk>\d+)$', RoomUpdate.as_view(), name='update'),
+    url(r'^room/update/(?P<pk>\d+)$', RoomUpdate.as_view(), name='room_update'),
     url(r'^room/delete/(?P<pk>\d+)$', RoomDelete.as_view(), name='room_delete'),
     url(r'^accounts/login/$', login, {'template_name': 'login.html'},name='login'),
     url(r'^logout/$', logout, {'next_page': '/?status_message=Succesfull logout'}, name='logout'),
