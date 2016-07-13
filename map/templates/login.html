@@ -2,9 +2,9 @@
 {% extends "base.html" %}
 {% load static from staticfiles %}
 
-{% block meta_title %} Map {% endblock meta_title %}
+{% block meta_title %} Login {% endblock meta_title %}
 
-{% block title %} Map{% endblock title %}
+{% block title %} Login {% endblock title %}
 {% block logo %}
 <div class="row" >
     <h2>Login Page</h2>
@@ -46,7 +46,7 @@
   </div>
   <div class="row ">
         <div class="col-md-2">
-           <button type="submit" class=" btn btn-success" id="login-button">Login</button>
+           <button type="submit" class=" btn btn-primary" id="login-button">Login</button>
         </div>
         <div class="col-md-4">
           {% if form.errors %}

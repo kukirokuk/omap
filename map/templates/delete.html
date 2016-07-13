@@ -2,19 +2,19 @@
 
 {% load static from staticfiles %}
 
-{% block meta_title %} Map {% endblock meta_title %}
+{% block meta_title %} Delete {% endblock meta_title %}
 
-{% block title %} Map{% endblock title %}
+{% block title %} Delete {% endblock title %}
 
 {% block content %}
 <div class="row" id="delete_block">
-<h2>Confirm DELETE</h1>
-    <form method="POST" action="">
-    {% csrf_token %}
-    Do you want to delete {{object.room_name}}{{object.first_name}} {{object.last_name}}?
-    <a class= "btn btn-primary" href=" {% url "map" %} ">cancel</a>
-    <input type="submit" value="YES" name="delete_button" class="btn btn-danger" />
-    </form>
+    <h2>Confirm DELETE</h2>
+        <form method="POST" action="">
+            {% csrf_token %}
+            Do you want to delete {{object.room_name}}{{object.first_name}} {{object.last_name}}?
+            <a class= "btn btn-primary" href=" {% url "map" %} ">cancel</a>
+            <input type="submit" value="YES" name="delete_button" class="btn btn-danger" />
+        </form>
 </div>
 {% endblock content %}
 {%block footer%}{%endblock%}

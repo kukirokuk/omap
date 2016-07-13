@@ -1,7 +1,7 @@
 
 {%load static from staticfiles %}
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
     <head>
         <meta charset="UTF-8"/>
     <title>Office map - {% block meta_title %}{% endblock meta_title %}</title>
@@ -20,7 +20,7 @@
             <!--Logo -->
 
             <div class="row">
-                <div class="col-xs-5">{%block logo%}{% endblock logo %}</div>
+                <div class="col-xs-4">{%block logo%}{% endblock logo %}</div>
             <!-- Status Message -->
                 {% if request.GET.status_message %}
                 <div class="col-xs-3 alert alert-warning" 
