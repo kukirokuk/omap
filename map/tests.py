@@ -12,8 +12,6 @@ from views import MapView
 from models import Room, Worker
 from forms import RoomUpdateForm, WorkerUpdateForm
 
-def random_string(length=10):
-    return u''.join(random.choice(string.ascii_letters) for x in range(length))
 
 class RoomFactory(factory.DjangoModelFactory):
     class Meta:
@@ -21,7 +19,7 @@ class RoomFactory(factory.DjangoModelFactory):
 
     room_name = "Frontend"
 
-    emp_number = 13
+    emp_number = 2
 
 class WorkerFactory(factory.DjangoModelFactory):
     class Meta:
@@ -40,17 +38,18 @@ class MapPageTest(TestCase):
     def setUp(self):
         self.client = Client()
         self.factory = RequestFactory()
+        self.url = reverse('map')
         
     def test_map_page_view(self):
         '''
         Check view response code and template
         '''
-        request = self.factory.get(reverse('map'))
+        request = self.factory.get(self.url)
         response = MapView.as_view()(request)
         self.assertEqual(response.status_code, 200)
 
         #test template
-        response = self.client.get(reverse('map'))
+        response = self.client.get(self.url)
         self.assertTemplateUsed(response, 'map.html')
 
     def test_context(self):
@@ -59,29 +58,30 @@ class MapPageTest(TestCase):
         '''
         # check if rooms apper in context
         room1 = RoomFactory.create()
-        response = self.client.get(reverse('map'))
+        response = self.client.get(self.url)
         room_context = response.context['room1']
         self.assertEqual(room_context, room1)
 
         room2 = RoomFactory.create()
-        response = self.client.get(reverse('map'))
+        response = self.client.get(self.url)
         room_context = response.context['room2']
         self.assertEqual(room_context, room2)
 
         room3 = RoomFactory.create()
-        response = self.client.get(reverse('map'))
+        response = self.client.get(self.url)
         room_context = response.context['room3']
         self.assertEqual(room_context, room3)
 
         room4 = RoomFactory.create()
-        response = self.client.get(reverse('map'))
+        response = self.client.get(self.url)
         room_context = response.context['room4']
         self.assertEqual(room_context, room4)
 
         #check status code if there is excessive room
         room5 = RoomFactory.create()
-        response = self.client.get(reverse('map'))
+        response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
+
 
 class DetailPageTest(TestCase):
     def setUp(self):
@@ -143,10 +143,22 @@ class DetailPageTest(TestCase):
         self.assertIn(worker2.last_name, response.content)
         self.assertIn(worker2.email, response.content)
 
-class RoomCreateEditPageTest(TestCase):
+    def test_auth(self):
+        '''
+        Check authentication works properly
+        '''
+        response = self.client.logout()
+        room1 = RoomFactory.create()
+        response = self.client.get(self.url, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Please enter your login and password', response.content)
+
+
+class RoomCreateEditDeletePageTest(TestCase):
     def setUp(self):
-        self.url1 =reverse('room_create', kwargs = {'pk':1})
-        self.url2 =reverse('room_update', kwargs = {'pk':1})
+        self.create_url =reverse('room_create', kwargs = {'pk':1})
+        self.update_url =reverse('room_update', kwargs = {'pk':1})
+        self.delete_url =reverse('room_delete', kwargs = {'pk':1})        
         self.client = Client()
         self.factory = RequestFactory()       
         self.test_user = User.objects.create_user("admin", "admin@admin", "admin")
@@ -165,14 +177,14 @@ class RoomCreateEditPageTest(TestCase):
         '''
         #create form
         room = RoomFactory.create()
-        response = self.client.get(self.url1)
+        response = self.client.get(self.create_url)
         self.assertEqual(response.status_code, 200)
         self.assertIn('name="room_name"', response.content)
         self.assertIn('name="emp_number"', response.content)
         self.assertIn('name="image"', response.content)
 
         #update form
-        response = self.client.get(self.url2)
+        response = self.client.get(self.update_url)
         self.assertEqual(response.status_code, 200)
 
     def test_post(self):
@@ -180,12 +192,12 @@ class RoomCreateEditPageTest(TestCase):
         Check form saves data
         '''
         #test create form
-        response = self.client.post(self.url1, self.data1)
+        response = self.client.post(self.create_url, self.data1)
         post_room = Room.objects.all().first()
         self.assertEqual(post_room.room_name, self.data1['room_name'])
 
         #test update form
-        response = self.client.post(self.url2, self.data2)
+        response = self.client.post(self.update_url, self.data2)
         post_room = Room.objects.all().first()
         self.assertEqual(post_room.room_name, self.data2['room_name'])
 
@@ -200,11 +212,34 @@ class RoomCreateEditPageTest(TestCase):
         form = RoomUpdateForm({"room_name": "Room"})
         self.assertFalse(form.is_valid())
 
+    def test_delete_worker(self):
+        '''
+        Check we can delete room
+        '''
+        #check status code of confirm delete page
+        room = RoomFactory.create()
+        response = self.client.get(self.delete_url)
+        self.assertEqual(response.status_code, 200)
 
-class WorkerCreateEditPageTest(TestCase):
+        #check do we delete right person
+        self.assertIn("Do you want to delete %s ?" %room.room_name,response.content)
+
+        #check we can delete room object
+        response = self.client.post(self.delete_url)
+        self.assertFalse(Room.objects.all())
+
+        #check we can delete room objects if there are workers attached
+        room = RoomFactory.create()
+        worker = WorkerFactory.create(work_room=room)
+        response = self.client.post(self.delete_url)
+        self.assertTrue(Room.objects.all())
+
+
+class WorkerCreateEditDeletePageTest(TestCase):
     def setUp(self):
-        self.url1 =reverse('worker_create')
-        self.url2 =reverse('worker_update', kwargs = {'pk':1})
+        self.create_url = reverse('worker_create')
+        self.update_url = reverse('worker_update', kwargs = {'pk':1})
+        self.delete_url = reverse('worker_delete', kwargs = {'pk':1})
         self.client = Client()
         self.factory = RequestFactory()       
         self.test_user = User.objects.create_user("admin", "admin@admin", "admin")
@@ -228,7 +263,7 @@ class WorkerCreateEditPageTest(TestCase):
         '''
         #create form
         worker = WorkerFactory.create()
-        response = self.client.get(self.url1)
+        response = self.client.get(self.create_url)
         self.assertEqual(response.status_code, 200)
         self.assertIn('name="first_name"', response.content)
         self.assertIn('name="last_name"', response.content)
@@ -236,7 +271,7 @@ class WorkerCreateEditPageTest(TestCase):
         self.assertIn('name="work_room"', response.content)
 
         #update form
-        response = self.client.get(self.url2)
+        response = self.client.get(self.update_url)
         self.assertEqual(response.status_code, 200)
 
     def test_post(self):
@@ -244,12 +279,12 @@ class WorkerCreateEditPageTest(TestCase):
         Check form saves data
         '''
         #test create form
-        response = self.client.post(self.url1, self.data1)
+        response = self.client.post(self.create_url, self.data1)
         post_worker = Worker.objects.all().first()
         self.assertEqual(post_worker.first_name, self.data1['first_name'])
 
         # #test update form
-        response = self.client.post(self.url2, self.data2)
+        response = self.client.post(self.update_url, self.data2)
         post_worker = Worker.objects.all().first()
         self.assertEqual(post_worker.first_name, self.data2['first_name'])
 
@@ -263,3 +298,29 @@ class WorkerCreateEditPageTest(TestCase):
 
         form = WorkerUpdateForm({"first_name": "Terence"})
         self.assertFalse(form.is_valid())
+
+    def test_maximum_workers_number_reached(self):
+        '''
+        Check maximum workers protection 
+        '''
+        #create 3 workers when room factory default max number is 2
+        worker = WorkerFactory.create(work_room=self.room)
+        response = self.client.post(self.create_url, self.data1)
+        response = self.client.post(self.create_url, self.data2)
+        self.assertContains(response, 'Maximum workers reached')
+
+    def test_delete_worker(self):
+        '''
+        Check we can delete worker
+        '''
+        #check status code of confirm delete page
+        worker = WorkerFactory.create(work_room=self.room)
+        response = self.client.get(self.delete_url)
+        self.assertEqual(response.status_code, 200)
+        #check do we delete right person
+        self.assertIn("Do you want to delete %s %s?" %(worker.first_name, 
+            worker.last_name),response.content)
+
+        #check we can delete worker object
+        response = self.client.post(self.delete_url)
+        self.assertFalse(Worker.objects.all())
