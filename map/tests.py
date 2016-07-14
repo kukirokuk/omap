@@ -10,6 +10,7 @@ import factory
 
 from views import MapView
 from models import Room, Worker
+from forms import RoomUpdateForm, WorkerUpdateForm
 
 def random_string(length=10):
     return u''.join(random.choice(string.ascii_letters) for x in range(length))
@@ -20,17 +21,17 @@ class RoomFactory(factory.DjangoModelFactory):
 
     room_name = "Frontend"
 
-    emp_number = 3
+    emp_number = 13
 
 class WorkerFactory(factory.DjangoModelFactory):
     class Meta:
         model = Worker
 
-    first_name = "Benni"
+    first_name = "Nihls"
 
-    last_name = "Benassi"
+    last_name = "Frahm"
 
-    email = "benni@mail.ru"
+    email = "frahm@ukr.net"
 
     work_room = factory.SubFactory(RoomFactory)
 
@@ -49,7 +50,6 @@ class MapPageTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
         #test template
-        # self.client.login('admin', 'admin')
         response = self.client.get(reverse('map'))
         self.assertTemplateUsed(response, 'map.html')
 
@@ -85,36 +85,181 @@ class MapPageTest(TestCase):
 
 class DetailPageTest(TestCase):
     def setUp(self):
+        self.url = reverse('room_detail', kwargs = {'pk':1})
         self.client = Client()
         self.factory = RequestFactory()       
         self.test_user = User.objects.create_user("admin", "admin@admin", "admin")
         login = self.client.login(username="admin", password="admin")
         self.assertEqual(login, True)
 
-    def test_detail_page_view(self):
+    def test_detail_page_view_and_context(self):
         '''
         Check view response code and template
         '''
-        request = self.factory.get(reverse('room_detail', kwargs = {'pk':1}))
+        request = self.factory.get(self.url)
         response = MapView.as_view()(request)
         self.assertEqual(response.status_code, 200)
 
         #check room instance in context
         room1 = RoomFactory.create()
-        response = self.client.get(reverse('room_detail', kwargs = {'pk':1}))
+        response = self.client.get(self.url)
         room_context = response.context['room']
         self.assertEqual(room_context, room1)
 
         #check worker instance in context if he is in the room with id=1
         worker1 = WorkerFactory.create(work_room=room1)
-        response = self.client.get(reverse('room_detail', kwargs = {'pk':1}))
+        response = self.client.get(self.url)
         worker_context = response.context['workers']
         self.assertEqual(worker_context.first(), worker1)
 
         #check worker is absent if his room does not mutch with ours
         worker1 = WorkerFactory.create()
-        response = self.client.get(reverse('room_detail', kwargs = {'pk':1}))
+        response = self.client.get(self.url)
         worker_context = response.context['workers']
         self.assertNotEqual(worker_context.first(), worker1)
 
 
+    def test_fields_renders(self):
+        '''
+        Check all fields renders
+        '''
+        #room model fields
+        room1 = RoomFactory.create()
+        response = self.client.get(self.url)
+        self.assertIn(room1.room_name, response.content)
+        self.assertIn(str(room1.emp_number), response.content)
+
+        #worker model fields
+        worker1 = WorkerFactory.create(work_room=room1)
+        response = self.client.get(self.url)
+        self.assertIn(worker1.first_name, response.content)
+        self.assertIn(worker1.last_name, response.content)
+        self.assertIn(worker1.email, response.content)
+
+        #test multiple worker db instances appear at the detail page
+        worker2 = WorkerFactory.create(work_room=room1)
+        response = self.client.get(self.url)
+        self.assertIn(worker2.first_name, response.content)
+        self.assertIn(worker2.last_name, response.content)
+        self.assertIn(worker2.email, response.content)
+
+class RoomCreateEditPageTest(TestCase):
+    def setUp(self):
+        self.url1 =reverse('room_create', kwargs = {'pk':1})
+        self.url2 =reverse('room_update', kwargs = {'pk':1})
+        self.client = Client()
+        self.factory = RequestFactory()       
+        self.test_user = User.objects.create_user("admin", "admin@admin", "admin")
+        login = self.client.login(username="admin", password="admin")
+        self.assertEqual(login, True)
+        self.data1 = {
+            'room_name': 'Newroom1',
+            'emp_number': 12}
+        self.data2 = {
+            'room_name': 'Newroom2',
+            'emp_number': 13}
+
+    def test_form_fields(self):
+        '''
+        Check room edit form fields renders
+        '''
+        #create form
+        room = RoomFactory.create()
+        response = self.client.get(self.url1)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('name="room_name"', response.content)
+        self.assertIn('name="emp_number"', response.content)
+        self.assertIn('name="image"', response.content)
+
+        #update form
+        response = self.client.get(self.url2)
+        self.assertEqual(response.status_code, 200)
+
+    def test_post(self):
+        '''
+        Check form saves data
+        '''
+        #test create form
+        response = self.client.post(self.url1, self.data1)
+        post_room = Room.objects.all().first()
+        self.assertEqual(post_room.room_name, self.data1['room_name'])
+
+        #test update form
+        response = self.client.post(self.url2, self.data2)
+        post_room = Room.objects.all().first()
+        self.assertEqual(post_room.room_name, self.data2['room_name'])
+
+    def test_form_validation(self):
+        '''
+        Check form validation works properly
+        '''
+        #test form validation
+        form = RoomUpdateForm(self.data1)
+        self.assertTrue(form.is_valid())
+
+        form = RoomUpdateForm({"room_name": "Room"})
+        self.assertFalse(form.is_valid())
+
+
+class WorkerCreateEditPageTest(TestCase):
+    def setUp(self):
+        self.url1 =reverse('worker_create')
+        self.url2 =reverse('worker_update', kwargs = {'pk':1})
+        self.client = Client()
+        self.factory = RequestFactory()       
+        self.test_user = User.objects.create_user("admin", "admin@admin", "admin")
+        login = self.client.login(username="admin", password="admin")
+        self.assertEqual(login, True)
+        self.room = RoomFactory.create(room_name="New_room")
+        self.data1 = {
+            'first_name': 'Peter',
+            'last_name': 'Falk',
+            'email': 'peter@gmail.com',
+            'work_room': self.room.id}
+        self.data2 = {
+            'first_name': 'Oleksandr',
+            'last_name': 'Vinnichuk',
+            'email': 'sasha@gmail.com',
+            'work_room': self.room.id}
+
+    def test_form_fields(self):
+        '''
+        Check worker edit form fields renders
+        '''
+        #create form
+        worker = WorkerFactory.create()
+        response = self.client.get(self.url1)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('name="first_name"', response.content)
+        self.assertIn('name="last_name"', response.content)
+        self.assertIn('name="email"', response.content)
+        self.assertIn('name="work_room"', response.content)
+
+        #update form
+        response = self.client.get(self.url2)
+        self.assertEqual(response.status_code, 200)
+
+    def test_post(self):
+        '''
+        Check form saves data
+        '''
+        #test create form
+        response = self.client.post(self.url1, self.data1)
+        post_worker = Worker.objects.all().first()
+        self.assertEqual(post_worker.first_name, self.data1['first_name'])
+
+        # #test update form
+        response = self.client.post(self.url2, self.data2)
+        post_worker = Worker.objects.all().first()
+        self.assertEqual(post_worker.first_name, self.data2['first_name'])
+
+    def test_form_validation(self):
+        '''
+        Check form validation works properly
+        '''
+        #test form validation
+        form = WorkerUpdateForm(self.data1)
+        self.assertTrue(form.is_valid())
+
+        form = WorkerUpdateForm({"first_name": "Terence"})
+        self.assertFalse(form.is_valid())

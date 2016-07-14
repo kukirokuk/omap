@@ -66,7 +66,7 @@ class RoomUpdate(UpdateView):
     form_class = RoomUpdateForm
 
     def get_success_url(self):
-        return '%s?status_message=Room updated' % reverse('room_detail', 
+        return '%s?status_message=Room updated' % reverse('room_update', 
             kwargs={'pk': self.get_object().id})
 
     def get_object(self):
@@ -116,11 +116,11 @@ class WorkerCreate(CreateView):
     def get_success_url(self):
         return '%s?status_message=Worker created' % reverse('map')
 
-    def get_object(self):
-        object = super(WorkerCreate, self).get_object()
-        if not self.request.user.is_authenticated():
-            raise Http404
-        return object
+    # def get_object(self):
+    #     object = super(WorkerCreate, self).get_object()
+    #     if not self.request.user.is_authenticated():
+    #         raise Http404
+    #     return object
 
 class WorkerUpdate(UpdateView):
     model = Worker 
