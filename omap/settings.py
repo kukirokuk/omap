@@ -132,9 +132,6 @@ TEMPLATE_DIRS = (
 MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
 MEDIA_URL = '/media/'
 
-FIXTURE_DIRS = (
-    os.path.join(BASE_DIR, 'map/fixtures'),
-)
 
 DJANGORESIZED_DEFAULT_SIZE = [1000 , 800]
 DJANGORESIZED_DEFAULT_QUALITY = 75
