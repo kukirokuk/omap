@@ -1,0 +1,155 @@
+[
+{
+    "model": "map.room",
+    "pk": 1,
+    "fields": {
+        "room_name": "Backend",
+        "emp_number": "5"
+    }
+},
+{
+    "model": "map.room",
+    "pk": 2,
+    "fields": {
+        "room_name": "Kitchen",
+        "emp_number": "2"
+    }
+},
+{
+    "model": "map.room",
+    "pk": 3,
+    "fields": {
+        "room_name": "Frontend",
+        "emp_number": "6"
+    }
+},
+{
+    "model": "map.room",
+    "pk": 4,
+    "fields": {
+        "room_name": "Lobby",
+        "emp_number": "3"
+    }
+},
+{
+    "model": "map.worker",
+    "pk": 2,
+    "fields": {
+        "first_name": "Toto",
+        "last_name": "Kutunyo",
+        "email": "toto@trototo.com",
+        "work_room": 1
+    }
+},
+{
+    "model": "map.worker",
+    "pk": 3,
+    "fields": {
+        "first_name": "Leslie",
+        "last_name": "Nilson",
+        "email": "oleksanr.v@gmail.com",
+        "work_room": 1
+    }
+},
+{
+    "model": "map.worker",
+    "pk": 4,
+    "fields": {
+        "first_name": "Pavlo",
+        "last_name": "Zibrov",
+        "email": "zibrov.molodec@ukr.net",
+        "work_room": 2
+    }
+},
+{
+    "model": "map.worker",
+    "pk": 5,
+    "fields": {
+        "first_name": "Chubaka",
+        "last_name": "Warrior",
+        "email": "chuchu@gmail.com",
+        "work_room": 3
+    }
+},
+{
+    "model": "map.worker",
+    "pk": 8,
+    "fields": {
+        "first_name": "Franchesko",
+        "last_name": "Totti",
+        "email": "totti@yahoo.com",
+        "work_room": 3
+    }
+},
+{
+    "model": "map.worker",
+    "pk": 10,
+    "fields": {
+        "first_name": "Gojko",
+        "last_name": "Mitich",
+        "email": "gojko@gmail.com",
+        "work_room": 3
+    }
+},
+{
+    "model": "map.worker",
+    "pk": 38,
+    "fields": {
+        "first_name": "Donald",
+        "last_name": "Tramp",
+        "email": "tramp@mail.ru",
+        "work_room": 2
+    }
+},
+{
+    "model": "map.worker",
+    "pk": 39,
+    "fields": {
+        "first_name": "Patrice",
+        "last_name": "Evra",
+        "email": "evra@hotmail.com",
+        "work_room": 3
+    }
+},
+{
+    "model": "map.worker",
+    "pk": 40,
+    "fields": {
+        "first_name": "Rudger",
+        "last_name": "Hauer",
+        "email": "hauer@hotmail.com",
+        "work_room": 1
+    }
+},
+{
+    "model": "map.worker",
+    "pk": 41,
+    "fields": {
+        "first_name": "Michael",
+        "last_name": "Faraday",
+        "email": "faradayfuture@i.ua",
+        "work_room": 1
+    }
+},
+{
+    "model": "map.worker",
+    "pk": 42,
+    "fields": {
+        "first_name": "Gleb",
+        "last_name": "Jiglov",
+        "email": "gleb@ukr.net",
+        "work_room": 4
+    }
+},
+{
+    "model": "map.worker",
+    "pk": 43,
+    "fields": {
+        "first_name": "Fruit",
+        "last_name": "Monster",
+        "email": "fruit@gmail.com",
+        "work_room": 3
+    }
+}
+
+]
